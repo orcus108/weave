@@ -1,0 +1,242 @@
+// Light-mode values — mirrors what .excalidraw defines in theme.scss
+// These are scoped to .excalidraw-app so they only affect our tab bar,
+// and are overridden by .excalidraw-app.theme--dark for dark mode.
+.excalidraw-app {
+  --ui-font: Assistant, system-ui, BlinkMacSystemFont, -apple-system, Segoe UI,
+    Roboto, Helvetica, Arial, sans-serif;
+  --board-tab-bar-bg: #ececf4; // --color-surface-low
+  --board-tab-bar-border: #c5c5d0; // --color-border-outline-variant
+  --board-tab-active-bg: #ffffff; // --color-surface-lowest
+  --board-tab-hover-bg: #f1f0ff; // --color-surface-high
+  --board-tab-text: #1b1b1f; // --color-on-surface
+  --board-tab-text-muted: #767680; // --color-border-outline
+  --board-tab-accent: #6965db; // --color-primary
+  --board-tab-danger: #db6965; // --color-danger
+  --board-tab-danger-bg: #fff0f0; // --color-danger-background
+  --board-tab-context-bg: #ffffff; // --island-bg-color
+  --board-tab-context-border: #c5c5d0; // --color-border-outline-variant
+}
+
+// Dark-mode overrides — mirrors .excalidraw.theme--dark in theme.scss
+.excalidraw-app.theme--dark {
+  --board-tab-bar-bg: hsl(240, 8%, 15%); // dark --color-surface-low
+  --board-tab-bar-border: #46464f; // dark --color-border-outline-variant
+  --board-tab-active-bg: hsl(0, 0%, 7%); // dark --color-surface-lowest
+  --board-tab-hover-bg: #2e2d39; // dark --color-surface-high
+  --board-tab-text: #e3e3e8; // dark --color-on-surface
+  --board-tab-text-muted: #8e8d9c; // dark --color-border-outline
+  --board-tab-accent: #a8a5ff; // dark --color-primary
+  --board-tab-danger: #ffa8a5; // dark --color-danger
+  --board-tab-danger-bg: #672120; // dark --color-danger-background
+  --board-tab-context-bg: #232329; // dark --island-bg-color
+  --board-tab-context-border: #46464f; // dark --color-border-outline-variant
+}
+
+// ---------------------------------------------------------------------------
+
+.board-tabs {
+  display: flex;
+  align-items: stretch;
+  height: 36px;
+  background: var(--board-tab-bar-bg);
+  border-bottom: 1px solid var(--board-tab-bar-border);
+  padding: 0 4px;
+  gap: 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-shrink: 0;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.board-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  margin-top: 4px;
+  height: 28px;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: var(--ui-font, inherit);
+  color: var(--board-tab-text-muted);
+  white-space: nowrap;
+  position: relative;
+  transition: background 0.1s;
+  user-select: none;
+
+  &:hover {
+    background: var(--board-tab-hover-bg);
+
+    .board-tab__close {
+      opacity: 1;
+    }
+  }
+
+  &--active {
+    background: var(--board-tab-active-bg);
+    border-color: var(--board-tab-bar-border);
+    color: var(--board-tab-text);
+    font-weight: 500;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--board-tab-accent);
+      border-radius: 2px 2px 0 0;
+    }
+  }
+
+  &--add {
+    font-size: 18px;
+    font-weight: 300;
+    padding: 0 8px;
+    color: var(--board-tab-text-muted);
+    border: none;
+    border-radius: 6px;
+    margin-top: 4px;
+    height: 28px;
+    cursor: pointer;
+    background: transparent;
+
+    &:hover {
+      background: var(--board-tab-hover-bg);
+      color: var(--board-tab-accent);
+    }
+  }
+}
+
+.board-tab__name {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.board-tab__close {
+  opacity: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 2px;
+  color: var(--board-tab-text-muted);
+  border-radius: 3px;
+  transition: opacity 0.1s, background 0.1s;
+
+  &:hover {
+    background: var(--board-tab-danger-bg);
+    color: var(--board-tab-danger);
+  }
+
+  .board-tab--active & {
+    opacity: 0.4;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.board-tab__rename-input {
+  background: var(--board-tab-active-bg);
+  border: 1px solid var(--board-tab-accent);
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: var(--ui-font, inherit);
+  color: var(--board-tab-text);
+  padding: 1px 4px;
+  width: 100px;
+  outline: none;
+}
+
+.board-tabs__peek {
+  height: 10px;
+  background: var(--board-tab-bar-bg);
+  border-bottom: 2px solid var(--board-tab-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.1s;
+
+  &:hover {
+    background: var(--board-tab-hover-bg);
+  }
+}
+
+.board-tabs__toggle {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  margin-left: auto;
+  margin-top: 4px;
+  flex-shrink: 0;
+  background: var(--board-tab-bar-bg);
+  border: none;
+  cursor: pointer;
+  padding: 0 8px;
+  height: 28px;
+  color: var(--board-tab-text-muted);
+  font-size: 14px;
+  font-family: var(--ui-font, inherit);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: background 0.1s, color 0.1s;
+
+  &:hover {
+    background: var(--board-tab-hover-bg);
+    color: var(--board-tab-text);
+  }
+}
+
+.board-tabs__context-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+}
+
+.board-tabs__context-menu {
+  position: fixed;
+  z-index: 9999;
+  background: var(--board-tab-context-bg);
+  border: 1px solid var(--board-tab-context-border);
+  border-radius: 8px;
+  padding: 4px;
+  margin: 0;
+  list-style: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  min-width: 130px;
+
+  li {
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: var(--ui-font, inherit);
+    color: var(--board-tab-text);
+    border-radius: 5px;
+
+    &:hover {
+      background: var(--board-tab-hover-bg);
+    }
+  }
+}
+
+.board-tabs__context-menu-item--danger {
+  color: var(--board-tab-danger) !important;
+
+  &:hover {
+    background: var(--board-tab-danger-bg) !important;
+  }
+}
