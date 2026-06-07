@@ -126,7 +126,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       Sitemap({
-        hostname: "https://excalidraw.com",
+        hostname: envVars.VITE_APP_HOSTNAME || "https://weave.vercel.app",
         outDir: "build",
         changefreq: "monthly",
         // its static in public folder
@@ -219,10 +219,10 @@ export default defineConfig(({ mode }) => {
           maximumFileSizeToCacheInBytes: 2.3 * 1024 ** 2, // 2.3MB
         },
         manifest: {
-          short_name: "Excalidraw",
-          name: "Excalidraw",
+          short_name: "Weave",
+          name: "Weave",
           description:
-            "Excalidraw is a whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
+            "Weave is a multi-board whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
           icons: [
             {
               src: "android-chrome-192x192.png",
@@ -246,7 +246,7 @@ export default defineConfig(({ mode }) => {
             },
           ],
           start_url: "/",
-          id: "excalidraw",
+          id: "weave",
           display: "standalone",
           theme_color: "#121212",
           background_color: "#ffffff",

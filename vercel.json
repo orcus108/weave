@@ -1,13 +1,12 @@
 {
   "public": true,
+  "buildCommand": "yarn workspace excalidraw-app build",
+  "outputDirectory": "excalidraw-app/build",
+  "installCommand": "yarn install",
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://excalidraw.com"
-        },
         {
           "key": "X-Content-Type-Options",
           "value": "nosniff"
@@ -31,7 +30,7 @@
         },
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://excalidraw.com"
+          "value": "*"
         }
       ]
     },
@@ -49,22 +48,10 @@
       ]
     }
   ],
-  "redirects": [
+  "rewrites": [
     {
-      "source": "/webex/:match*",
-      "destination": "https://for-webex.excalidraw.com"
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "vscode.excalidraw.com"
-        }
-      ],
-      "destination": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor"
+      "source": "/((?!assets|fonts|locales|android-chrome|apple-touch|favicon|manifest|screenshots|service-worker|workbox).*)",
+      "destination": "/index.html"
     }
-  ],
-  "outputDirectory": "excalidraw-app/build",
-  "installCommand": "yarn install"
+  ]
 }
