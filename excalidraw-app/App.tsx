@@ -923,9 +923,9 @@ const ExcalidrawWrapper = () => {
           switchBoard(prev.id);
         }
       } else if (e.code === "KeyK") {
-        // gallery
+        // toggle gallery
         e.preventDefault();
-        setGalleryOpen(true);
+        setGalleryOpen((prev) => !prev);
       } else if (e.code === "KeyW") {
         // close current board
         e.preventDefault();
