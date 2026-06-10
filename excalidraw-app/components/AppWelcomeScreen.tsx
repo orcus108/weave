@@ -38,7 +38,7 @@ export const AppWelcomeScreen: React.FC<{
       <WelcomeScreen.Center>
         <WelcomeScreen.Center.Logo>
           <WeaveLogoIcon />
-          <span style={{ color: "var(--color-logo-text)" }}>Weave</span>
+          <span style={{ color: "var(--color-logo-text)" }}>notExcalidraw</span>
         </WelcomeScreen.Center.Logo>
         <WelcomeScreen.Center.Heading>
           {t("welcomeScreen.app.center_heading")}

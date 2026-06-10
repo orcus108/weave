@@ -219,10 +219,10 @@ export default defineConfig(({ mode }) => {
           maximumFileSizeToCacheInBytes: 2.3 * 1024 ** 2, // 2.3MB
         },
         manifest: {
-          short_name: "Weave",
-          name: "Weave",
+          short_name: "notExcalidraw",
+          name: "notExcalidraw",
           description:
-            "Weave is a multi-board whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
+            "notExcalidraw is a multi-board whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
           icons: [
             {
               src: "android-chrome-192x192.png",
