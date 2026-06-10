@@ -55,6 +55,7 @@ export const STORAGE_KEYS = {
   BOARD_LIST: "weave:boards",
   ACTIVE_BOARD_ID: "weave:activeboard",
   TAB_BAR_COLLAPSED: "weave:tabbar:collapsed",
+  CLOSED_BOARD_IDS: "weave:boards:closed",
 } as const;
 
 export const boardElementsKey = (boardId: string) =>

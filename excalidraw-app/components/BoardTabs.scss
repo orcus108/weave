@@ -240,3 +240,10 @@
     background: var(--board-tab-danger-bg) !important;
   }
 }
+
+.board-tabs__context-menu-item--close {
+  border-top: 1px solid var(--board-tab-context-border);
+  margin-top: 2px;
+  padding-top: 8px !important;
+  color: var(--board-tab-text-muted, var(--board-tab-text)) !important;
+}

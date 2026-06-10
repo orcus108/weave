@@ -196,6 +196,26 @@ export const saveBoardToLocalStorage = (
   }
 };
 
+export const loadClosedBoardIds = (): string[] => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.CLOSED_BOARD_IDS);
+    if (raw) {
+      return JSON.parse(raw) as string[];
+    }
+  } catch (error: any) {
+    console.error(error);
+  }
+  return [];
+};
+
+export const saveClosedBoardIds = (ids: string[]): void => {
+  try {
+    localStorage.setItem(STORAGE_KEYS.CLOSED_BOARD_IDS, JSON.stringify(ids));
+  } catch (error: any) {
+    console.error(error);
+  }
+};
+
 /**
  * One-time migration: moves existing excalidraw/excalidraw-state keys into a
  * board-namespaced slot and seeds the board list. Returns the new board id.

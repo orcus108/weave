@@ -145,9 +145,29 @@
     border-color: var(--board-tab-accent);
     border-width: 2px;
   }
+
+  &--hidden {
+    opacity: 0.6;
+  }
+}
+
+.board-gallery__card-hidden-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  letter-spacing: 0.04em;
+  pointer-events: none;
 }
 
 .board-gallery__card-preview {
+  position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
   background: #f3f3f7;

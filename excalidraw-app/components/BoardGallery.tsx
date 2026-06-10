@@ -14,12 +14,14 @@ import type { Board } from "../boards/types";
 interface BoardGalleryProps {
   boards: Board[];
   activeBoardId: string;
+  closedBoardIds: string[];
   onSelect: (id: string) => void;
   onClose: () => void;
   onAdd: () => void;
   onRename: (id: string, name: string) => void;
   onDelete: (id: string) => void;
   onDuplicate: (id: string) => void;
+  onReopen: (id: string) => void;
 }
 
 const generateThumbnail = async (boardId: string): Promise<string | null> => {
@@ -54,6 +56,7 @@ const generateThumbnail = async (boardId: string): Promise<string | null> => {
 const BoardCard = ({
   board,
   isActive,
+  isClosed,
   onSelect,
   onRename,
   onDelete,
@@ -61,6 +64,7 @@ const BoardCard = ({
 }: {
   board: Board;
   isActive: boolean;
+  isClosed: boolean;
   onSelect: () => void;
   onRename: (name: string) => void;
   onDelete: () => void;
@@ -109,6 +113,7 @@ const BoardCard = ({
     <div
       className={clsx("board-gallery__card", {
         "board-gallery__card--active": isActive,
+        "board-gallery__card--hidden": isClosed,
       })}
       onClick={onSelect}
       role="button"
@@ -128,6 +133,9 @@ const BoardCard = ({
           <img src={thumbnail} alt="" draggable={false} />
         ) : (
           <span className="board-gallery__card-empty-label">Empty board</span>
+        )}
+        {isClosed && (
+          <span className="board-gallery__card-hidden-badge">Hidden</span>
         )}
       </div>
 
@@ -199,12 +207,14 @@ const BoardCard = ({
 export const BoardGallery = ({
   boards,
   activeBoardId,
+  closedBoardIds,
   onSelect,
   onClose,
   onAdd,
   onRename,
   onDelete,
   onDuplicate,
+  onReopen,
 }: BoardGalleryProps) => {
   const [query, setQuery] = useState("");
   const searchRef = useRef<HTMLInputElement>(null);
@@ -277,7 +287,11 @@ export const BoardGallery = ({
                 key={board.id}
                 board={board}
                 isActive={board.id === activeBoardId}
+                isClosed={closedBoardIds.includes(board.id)}
                 onSelect={() => {
+                  if (closedBoardIds.includes(board.id)) {
+                    onReopen(board.id);
+                  }
                   onSelect(board.id);
                   onClose();
                 }}

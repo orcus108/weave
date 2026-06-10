@@ -82,6 +82,7 @@ import {
   activeBoardIdAtom,
   checkpointsAtom,
   renamingBoardIdAtom,
+  closedBoardIdsAtom,
 } from "./app-jotai";
 import {
   FIREBASE_STORAGE_PREFIXES,
@@ -132,6 +133,8 @@ import {
   loadActiveBoardId,
   migrateLegacyToBoard,
   saveBoardToLocalStorage,
+  loadClosedBoardIds,
+  saveClosedBoardIds,
 } from "./data/localStorage";
 
 import { loadFilesFromFirebase } from "./data/firebase";
@@ -437,6 +440,7 @@ const ExcalidrawWrapper = () => {
   const [activeBoardId, setActiveBoardId] = useAtom(activeBoardIdAtom);
   const [renamingBoardId, setRenamingBoardId] = useAtom(renamingBoardIdAtom);
   const [checkpoints, setCheckpoints] = useAtom(checkpointsAtom);
+  const [closedBoardIds, setClosedBoardIds] = useAtom(closedBoardIdsAtom);
   const [tabBarCollapsed, setTabBarCollapsed] = useState(
     () => localStorage.getItem(STORAGE_KEYS.TAB_BAR_COLLAPSED) === "true",
   );
@@ -581,6 +585,7 @@ const ExcalidrawWrapper = () => {
     const initialBoards = loadBoardList();
     setBoards(initialBoards);
     setActiveBoardId(boardId);
+    setClosedBoardIds(loadClosedBoardIds());
 
     initializeScene({ collabAPI, excalidrawAPI, boardId }).then(
       async (data) => {
@@ -828,9 +833,16 @@ const ExcalidrawWrapper = () => {
       }
       setBoards(updated);
       saveBoardList(updated);
+      // clean up closed state if the deleted board was hidden
+      const currentClosed = appJotaiStore.get(closedBoardIdsAtom);
+      if (currentClosed.includes(id)) {
+        const updatedClosed = currentClosed.filter((cid) => cid !== id);
+        setClosedBoardIds(updatedClosed);
+        saveClosedBoardIds(updatedClosed);
+      }
       switchBoard(newActiveId);
     },
-    [boards, setBoards, switchBoard],
+    [boards, setBoards, setClosedBoardIds, switchBoard],
   );
 
   const handleDuplicateBoard = useCallback(
@@ -850,6 +862,34 @@ const ExcalidrawWrapper = () => {
       switchBoard(newBoard.id);
     },
     [boards, setBoards, switchBoard],
+  );
+
+  const handleCloseBoard = useCallback(
+    (id: string) => {
+      const openBoards = boards.filter((b) => !closedBoardIds.includes(b.id));
+      if (openBoards.length <= 1) {
+        return; // can't close the last visible tab
+      }
+      const updated = [...closedBoardIds, id];
+      setClosedBoardIds(updated);
+      saveClosedBoardIds(updated);
+      if (id === activeBoardId) {
+        const next = openBoards.find((b) => b.id !== id);
+        if (next) {
+          switchBoard(next.id);
+        }
+      }
+    },
+    [boards, closedBoardIds, activeBoardId, setClosedBoardIds, switchBoard],
+  );
+
+  const handleReopenBoard = useCallback(
+    (id: string) => {
+      const updated = closedBoardIds.filter((cid) => cid !== id);
+      setClosedBoardIds(updated);
+      saveClosedBoardIds(updated);
+    },
+    [closedBoardIds, setClosedBoardIds],
   );
 
   const handleDeleteBoardWithConfirm = useCallback(
@@ -1092,7 +1132,7 @@ const ExcalidrawWrapper = () => {
       })}
     >
       <BoardTabs
-        boards={boards}
+        boards={boards.filter((b) => !closedBoardIds.includes(b.id))}
         activeBoardId={activeBoardId}
         renamingBoardId={renamingBoardId}
         collapsed={tabBarCollapsed}
@@ -1100,6 +1140,7 @@ const ExcalidrawWrapper = () => {
         onAdd={handleAddBoard}
         onRename={handleRenameBoard}
         onDuplicate={handleDuplicateBoard}
+        onClose={handleCloseBoard}
         onSetRenaming={setRenamingBoardId}
         onToggleCollapse={handleToggleTabBar}
         onOpenGallery={() => setGalleryOpen(true)}
@@ -1108,12 +1149,19 @@ const ExcalidrawWrapper = () => {
         <BoardGallery
           boards={boards}
           activeBoardId={activeBoardId}
-          onSelect={switchBoard}
+          closedBoardIds={closedBoardIds}
+          onSelect={(id) => {
+            if (closedBoardIds.includes(id)) {
+              handleReopenBoard(id);
+            }
+            switchBoard(id);
+          }}
           onClose={() => setGalleryOpen(false)}
           onAdd={handleAddBoard}
           onRename={handleRenameBoard}
           onDelete={handleDeleteBoardWithConfirm}
           onDuplicate={handleDuplicateBoard}
+          onReopen={handleReopenBoard}
         />
       )}
       <div style={{ flex: 1, minHeight: 0 }}>
@@ -1346,9 +1394,12 @@ const ExcalidrawWrapper = () => {
                 predicate: true,
                 perform: () => handleDuplicateBoard(activeBoardId),
               },
-              // Dynamic: one entry per other board for quick switching
+              // Dynamic: one entry per other open board for quick switching
               ...boards
-                .filter((b) => b.id !== activeBoardId)
+                .filter(
+                  (b) =>
+                    b.id !== activeBoardId && !closedBoardIds.includes(b.id),
+                )
                 .map((b) => ({
                   label: `Switch to: ${b.name}`,
                   category: "Boards",

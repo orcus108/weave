@@ -21,6 +21,7 @@ export const boardsAtom = atom<Board[]>([]);
 export const activeBoardIdAtom = atom<string>("");
 export const checkpointsAtom = atom<Checkpoint[]>([]);
 export const renamingBoardIdAtom = atom<string | null>(null);
+export const closedBoardIdsAtom = atom<string[]>([]);
 
 export const useAtomWithInitialValue = <
   T extends unknown,

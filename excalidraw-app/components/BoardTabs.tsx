@@ -14,6 +14,7 @@ interface BoardTabsProps {
   onAdd: () => void;
   onRename: (id: string, name: string) => void;
   onDuplicate: (id: string) => void;
+  onClose: (id: string) => void;
   onSetRenaming: (id: string | null) => void;
   onToggleCollapse: () => void;
   onOpenGallery: () => void;
@@ -44,6 +45,7 @@ export const BoardTabs = ({
   onAdd,
   onRename,
   onDuplicate,
+  onClose,
   onSetRenaming,
   onToggleCollapse,
   onOpenGallery,
@@ -175,6 +177,15 @@ export const BoardTabs = ({
               }}
             >
               Duplicate
+            </li>
+            <li
+              className="board-tabs__context-menu-item--close"
+              onClick={() => {
+                onClose(contextMenu.boardId);
+                closeContextMenu();
+              }}
+            >
+              Close
             </li>
           </ul>
         </>
