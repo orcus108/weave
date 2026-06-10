@@ -232,6 +232,23 @@ export default defineConfig(({ mode }) => {
               type: "image/png",
             },
             {
+              src: "android-chrome-512x512.png",
+              sizes: "512x512",
+              type: "image/png",
+            },
+            {
+              src: "maskable_icon_x192.png",
+              sizes: "192x192",
+              type: "image/png",
+              purpose: "maskable",
+            },
+            {
+              src: "maskable_icon_x512.png",
+              sizes: "512x512",
+              type: "image/png",
+              purpose: "maskable",
+            },
+            {
               src: "apple-touch-icon.png",
               type: "image/png",
               sizes: "180x180",
