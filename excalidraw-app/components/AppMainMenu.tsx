@@ -51,6 +51,12 @@ export const AppMainMenu: React.FC<{
           Visual Debug
         </MainMenu.Item>
       )}
+      <MainMenu.ItemLink
+        href="https://github.com/orcus108/weave"
+        target="_blank"
+      >
+        Contribute on GitHub
+      </MainMenu.ItemLink>
       <MainMenu.Separator />
       <MainMenu.DefaultItems.Preferences />
       <MainMenu.DefaultItems.ToggleTheme

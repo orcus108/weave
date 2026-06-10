@@ -61,6 +61,12 @@ export const AppWelcomeScreen: React.FC<{
           >
             Built on Excalidraw
           </WelcomeScreen.Center.MenuItemLink>
+          <WelcomeScreen.Center.MenuItemLink
+            href="https://github.com/orcus108/weave"
+            shortcut={null}
+          >
+            Contribute on GitHub
+          </WelcomeScreen.Center.MenuItemLink>
         </WelcomeScreen.Center.Menu>
       </WelcomeScreen.Center>
     </WelcomeScreen>

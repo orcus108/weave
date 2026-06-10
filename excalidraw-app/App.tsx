@@ -892,6 +892,74 @@ const ExcalidrawWrapper = () => {
     [closedBoardIds, setClosedBoardIds],
   );
 
+  // Board keyboard shortcuts (Option/Alt)
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!e.altKey) {
+        return;
+      }
+      const allBoards = appJotaiStore.get(boardsAtom);
+      const closed = appJotaiStore.get(closedBoardIdsAtom);
+      const open = allBoards.filter((b) => !closed.includes(b.id));
+      const currentId = appJotaiStore.get(activeBoardIdAtom);
+      const idx = open.findIndex((b) => b.id === currentId);
+
+      if (e.code === "KeyT") {
+        // new board
+        e.preventDefault();
+        handleAddBoard();
+      } else if (e.code === "Tab" && !e.shiftKey) {
+        // next board
+        e.preventDefault();
+        const next = open[(idx + 1) % open.length];
+        if (next && next.id !== currentId) {
+          switchBoard(next.id);
+        }
+      } else if (e.code === "Tab" && e.shiftKey) {
+        // previous board
+        e.preventDefault();
+        const prev = open[(idx - 1 + open.length) % open.length];
+        if (prev && prev.id !== currentId) {
+          switchBoard(prev.id);
+        }
+      } else if (e.code === "KeyK") {
+        // gallery
+        e.preventDefault();
+        setGalleryOpen(true);
+      } else if (e.code === "KeyW") {
+        // close current board
+        e.preventDefault();
+        handleCloseBoard(currentId);
+      } else if (e.code === "KeyR") {
+        // rename current board
+        e.preventDefault();
+        setRenamingBoardId(currentId);
+      } else if (e.code === "KeyD") {
+        // duplicate current board
+        e.preventDefault();
+        handleDuplicateBoard(currentId);
+      } else {
+        // Option+1–9: jump to board by index
+        const digit = e.code.match(/^Digit([1-9])$/)?.[1];
+        if (digit) {
+          const target = open[parseInt(digit, 10) - 1];
+          if (target && target.id !== currentId) {
+            e.preventDefault();
+            switchBoard(target.id);
+          }
+        }
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [
+    handleAddBoard,
+    switchBoard,
+    handleCloseBoard,
+    handleDuplicateBoard,
+    setRenamingBoardId,
+  ]);
+
   const handleDeleteBoardWithConfirm = useCallback(
     async (id: string) => {
       const board = boards.find((b) => b.id === id);
