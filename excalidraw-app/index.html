@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>notExcalidraw</title>
+    <title>
+      notExcalidraw — Free Multi-board Whiteboard | Excalidraw Alternative
+    </title>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
@@ -12,28 +14,69 @@
     <meta name="theme-color" content="#121212" />
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="notExcalidraw — Multi-board whiteboard" />
+    <meta
+      name="title"
+      content="notExcalidraw — Free Multi-board Whiteboard | Excalidraw Alternative"
+    />
     <meta
       name="description"
-      content="notExcalidraw is a multi-board whiteboard for sketching diagrams with a hand-drawn feel. Built on Excalidraw."
+      content="notExcalidraw is a free Excalidraw alternative: an online whiteboard with multi-board tabs, checkpoint history, and hand-drawn style diagrams. Sketch flowcharts, wireframes, and ideas — no sign-up, no paywall."
     />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="<%= HOSTNAME %>/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:site_name" content="notExcalidraw" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="notExcalidraw — Multi-board whiteboard" />
+    <meta property="og:url" content="<%= HOSTNAME %>/" />
+    <meta
+      property="og:title"
+      content="notExcalidraw — Free Multi-board Whiteboard | Excalidraw Alternative"
+    />
     <meta
       property="og:description"
-      content="notExcalidraw is a multi-board whiteboard for sketching diagrams with a hand-drawn feel. Built on Excalidraw."
+      content="Free Excalidraw alternative with multi-board tabs and checkpoint history. Sketch diagrams with a hand-drawn feel — no sign-up, no paywall."
+    />
+    <meta property="og:image" content="<%= HOSTNAME %>/og-image-3.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="675" />
+    <meta
+      property="og:image:alt"
+      content="Hand-drawn style diagrams on the notExcalidraw whiteboard"
     />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="notExcalidraw — Multi-board whiteboard" />
+    <meta property="twitter:url" content="<%= HOSTNAME %>/" />
+    <meta
+      property="twitter:title"
+      content="notExcalidraw — Free Multi-board Whiteboard | Excalidraw Alternative"
+    />
     <meta
       property="twitter:description"
-      content="notExcalidraw is a multi-board whiteboard for sketching diagrams with a hand-drawn feel. Built on Excalidraw."
+      content="Free Excalidraw alternative with multi-board tabs and checkpoint history. Sketch diagrams with a hand-drawn feel — no sign-up, no paywall."
     />
+    <meta property="twitter:image" content="<%= HOSTNAME %>/og-image-3.png" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "notExcalidraw",
+        "url": "<%= HOSTNAME %>/",
+        "description": "Free Excalidraw alternative: an online whiteboard with multi-board tabs, checkpoint history, and hand-drawn style diagrams. Sketch flowcharts, wireframes, and ideas with no sign-up.",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "image": "<%= HOSTNAME %>/og-image-3.png",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
 
     <!------------------------------------------------------------------------->
     <!--   to minimize white flash on load when user has dark mode enabled   -->
@@ -189,7 +232,10 @@
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <header>
-      <h1 class="visually-hidden">notExcalidraw</h1>
+      <h1 class="visually-hidden">
+        notExcalidraw — free multi-board online whiteboard and Excalidraw
+        alternative for sketching hand-drawn style diagrams
+      </h1>
     </header>
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>

@@ -11,6 +11,8 @@ import { woff2BrowserPlugin } from "../scripts/woff2/woff2-vite-plugins";
 export default defineConfig(({ mode }) => {
   // To load .env variables
   const envVars = loadEnv(mode, `../`);
+  const hostname =
+    envVars.VITE_APP_HOSTNAME || "https://notexcalidraw.vercel.app";
   // https://vitejs.dev/config/
   return {
     server: {
@@ -126,7 +128,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       Sitemap({
-        hostname: envVars.VITE_APP_HOSTNAME || "https://weave.vercel.app",
+        hostname,
         outDir: "build",
         changefreq: "monthly",
         // its static in public folder
@@ -146,7 +148,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
       svgrPlugin(),
-      ViteEjsPlugin(),
+      ViteEjsPlugin({ HOSTNAME: hostname }),
       VitePWA({
         registerType: "autoUpdate",
         devOptions: {
@@ -311,6 +313,9 @@ export default defineConfig(({ mode }) => {
       }),
       createHtmlPlugin({
         minify: true,
+        inject: {
+          data: { HOSTNAME: hostname },
+        },
       }),
     ],
     publicDir: "../public",

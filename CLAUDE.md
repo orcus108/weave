@@ -40,6 +40,7 @@ yarn test:update     # Run all tests with snapshot updates
 - **`boards/checkpointManager.ts`** — IDB snapshots (IndexedDB store `weave-checkpoints-db`): `saveCheckpoint`, `loadCheckpoints`, `restoreCheckpoint`, `formatRelativeTime`
 
 Board data is stored in `localStorage` under namespaced keys:
+
 - `weave:boards` — JSON array of `Board` metadata
 - `weave:activeboard` — active board ID string
 - `weave:board:{id}:elements` — serialised elements per board
@@ -92,7 +93,7 @@ Custom items added to `<CommandPalette customCommandPaletteItems={...}>` in `App
 ## Key Files Changed in `excalidraw-app/`
 
 | File | What changed |
-|---|---|
+| --- | --- |
 | `App.tsx` | Board init, switchBoard, onChange wiring, gallery state, branding cleanup |
 | `app_constants.ts` | Added `BOARD_LIST`, `ACTIVE_BOARD_ID`, `TAB_BAR_COLLAPSED` keys; `boardElementsKey()`, `boardAppStateKey()` helpers |
 | `app-jotai.ts` | Added `boardsAtom`, `activeBoardIdAtom`, `checkpointsAtom`, `renamingBoardIdAtom` |
