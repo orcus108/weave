@@ -1,5 +1,4 @@
 {
-  "public": true,
   "framework": null,
   "buildCommand": "yarn workspace excalidraw-app build",
   "outputDirectory": "excalidraw-app/build",
