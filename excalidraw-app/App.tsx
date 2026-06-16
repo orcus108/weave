@@ -159,6 +159,7 @@ import { AIComponents } from "./components/AI";
 import { ExcalidrawPlusIframeExport } from "./ExcalidrawPlusIframeExport";
 
 import "./index.scss";
+import { Analytics } from "@vercel/analytics/react";
 
 import { AppSidebar } from "./components/AppSidebar";
 
@@ -1525,6 +1526,7 @@ const ExcalidrawApp = () => {
           <ExcalidrawWrapper />
         </ExcalidrawAPIProvider>
       </Provider>
+      <Analytics />
     </TopErrorBoundary>
   );
 };
